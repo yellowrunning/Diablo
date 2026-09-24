@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Diablo/Diablo.vcxproj" Id="ecb0492e-3d6d-4549-a3ce-1c43a07a9ec7" />
+</Solution>
