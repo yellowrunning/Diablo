@@ -139,11 +139,15 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Combat.cpp" />
     <ClCompile Include="Diablo.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rooms.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Combat.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rooms.h" />
