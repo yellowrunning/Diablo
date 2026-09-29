@@ -4,21 +4,18 @@
 class Enemy
 {
 private:
+	std::string name;
 	int health;
+	int maxHealth;
 	int attackValue;
 
 public:
-	Enemy(int ahealth, int anattack)
-	{
-		health = ahealth;
-		anattack = attackValue;
-	}
+	Enemy(std::string aName, int ahealth, int anattack);
 
-	int GetAttackValue() { return attackValue; }
-	bool IsAlive() { return health > 0; }
-
-	void LoseHealth(int damage)
-	{
-		health -= damage;
-	}
+	std::string GetName() const;
+	int GetAttackValue() const;
+	int GetHealth() const;
+	int GetMaxHealth() const;
+	bool IsAlive() const;
+	void LoseHealth(int damage);
 };

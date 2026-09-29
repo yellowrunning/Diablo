@@ -3,20 +3,22 @@
 #include <vector>
 #include "Enemy.h"
 #include "Player.h"
+#include "Door.h"
 
 class Room
 {
-	int currentRoom = 0;
-	std::vector<Room> rooms;
-	rooms:Add(Room())
-	rooms:Add(Room())
-	Player player;
-	while (currentRoom <= rooms.size() && player.IsAlive() == true)
-	{
-		rooms[currentRoom].EnterRoom(player);
-		currentRoom++;
-	}
+private:
+	std::string name;
+	std::vector<Enemy> enemies;
+	std::vector<Door*> doors;
 
-	if (player.IsAlive() == true)
-	{
-	}
+public:
+	Room(std::string aName);
+
+	void AddEnemy(Enemy anEnemy);
+	void AddDoor(Door* aDoor);
+	std::string GetName() const;
+	bool HasLivingEnemies();
+
+	int Interact(Player& player, int currentRoomIndex);
+};

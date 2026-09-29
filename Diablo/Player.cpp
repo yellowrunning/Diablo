@@ -19,5 +19,5 @@ void Player::ShowStats()
     std::cout << "Vitality: " << vitality << "\n";
     std::cout << "HP: " << currentHealth << " / " << GetMaxHealth() << "\n";
     std::cout << "Attack: " << GetAttackValue() << "\n";
-    std::cout << "Defence: " << GetDefence() << "\=============\n\n";
+    std::cout << "Defence: " << GetDefence() << "\n====================\n\n";
 }
