@@ -10,8 +10,8 @@ private:
     Player player;
     std::vector<Room> dungeon;
     std::vector<Door> allDoors;
-    int currentRoomIndex;
-    int winRoomIndex;
+    int currentRoomNumber;
+    int winRoomNumber;
 
 public:
     Game();

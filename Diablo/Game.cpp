@@ -3,8 +3,8 @@
 
 Game::Game()
 {
-    currentRoomIndex = 0;
-    winRoomIndex = 4;
+    currentRoomNumber = 0;
+    winRoomNumber = 4;
 }
 
 void Game::ShowMainMenu()
@@ -30,24 +30,27 @@ void Game::ShowMainMenu()
 void Game::SetupDungeon()
 {
     Room room1("The Entrance");
-    room1.AddEnemy(Enemy("Goblin", 15, 3));
+    room1.AddEnemy(Enemy("Goblin", 15, 3, 2));
 
     Room room2("The Great Hall");
-    room2.AddEnemy(Enemy("Skeleton", 20, 4));
+    room2.AddEnemy(Enemy("Skeleton", 20, 4, 3));
 
     Room room3("The Crypt");
-    room3.AddEnemy(Enemy("Zombie", 25, 5));
+    room3.AddEnemy(Enemy("Zombie", 25, 5, 4));
 
     Room room4("The Armory");
-    room4.AddEnemy(Enemy("Orc", 35, 6));
+    room4.AddEnemy(Enemy("Orc", 35, 6, 5));
 
     Room room5("The Hell Gate");
-    room5.AddEnemy(Enemy("Demon", 50, 10));
+    room5.AddEnemy(Enemy("Demon", 50, 10, 6));
 
-    allDoors.push_back(Door(0, 1));
-    allDoors.push_back(Door(1, 2));
-    allDoors.push_back(Door(2, 3));
-    allDoors.push_back(Door(3, 4));
+    allDoors =
+    {
+        Door(0, 1, false),
+        Door(1, 2, true),
+        Door(2, 3, false),
+        Door(3, 4, true)
+    };
 
     room1.AddDoor(&allDoors[0]);
     room2.AddDoor(&allDoors[0]);
@@ -61,11 +64,7 @@ void Game::SetupDungeon()
     room4.AddDoor(&allDoors[3]);
     room5.AddDoor(&allDoors[3]);
 
-    dungeon.push_back(room1);
-    dungeon.push_back(room2);
-    dungeon.push_back(room3);
-    dungeon.push_back(room4);
-    dungeon.push_back(room5);
+    dungeon = { room1, room2, room3, room4, room5 };
 }
 
 void Game::Run()
@@ -74,15 +73,15 @@ void Game::Run()
     SetupDungeon();
 
     system("cls");
-    std::cout << "You step into the dark... The nightmare begins.\n";
+    std::cout << "The Game begins . . . \n";
     system("pause");
 
     while (player.IsAlive())
     {
         system("cls");
-        currentRoomIndex = dungeon[currentRoomIndex].Interact(player, currentRoomIndex);
+        currentRoomNumber = dungeon[currentRoomNumber].Interact(player, currentRoomNumber);
 
-        if (currentRoomIndex == winRoomIndex && !dungeon[winRoomIndex].HasLivingEnemies())
+        if (currentRoomNumber == winRoomNumber && !dungeon[winRoomNumber].HasLivingEnemies())
         {
             break;
         }

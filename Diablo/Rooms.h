@@ -20,5 +20,5 @@ public:
 	std::string GetName() const;
 	bool HasLivingEnemies();
 
-	int Interact(Player& player, int currentRoomIndex);
+	int Interact(Player& player, int currentRoomNumber);
 };

@@ -3,8 +3,7 @@
 
 bool Combat::HasLivingEnemies(std::vector<Enemy>& enemies)
 {
-    int numEnemies = static_cast<int>(enemies.size());
-    for (int i = 0; i < numEnemies; ++i)
+    for (int i = 0; i < enemies.size(); ++i)
     {
         if (enemies[i].IsAlive()) return true;
     }
@@ -13,49 +12,56 @@ bool Combat::HasLivingEnemies(std::vector<Enemy>& enemies)
 
 void Combat::Fight(Player& player, std::vector<Enemy>& enemies)
 {
-    std::cout << "Monsters appear! You must defeat them to proceed!\n";
 
     while (HasLivingEnemies(enemies) && player.IsAlive())
     {
-        std::cout << "\n--- YOUR TURN ---\n";
-        std::vector<int> livingEnemyIndices;
-        int optionNum = 1;
+        system("cls");
+        std::cout << "Monsters appear! You must defeat them to proceed!\n";
 
-        int numEnemies = static_cast<int>(enemies.size());
-        for (int i = 0; i < numEnemies; ++i)
+        std::cout << "\n--- YOUR TURN ---\n";
+        std::vector<int> targets;
+        int menuNum = 1;
+
+        for (int i = 0; i < enemies.size(); ++i)
         {
             if (enemies[i].IsAlive())
             {
-                std::cout << "[" << optionNum << "] Attack " << enemies[i].GetName()
+                std::cout << "[" << menuNum << "] Attack " << enemies[i].GetName()
                     << " (HP: " << enemies[i].GetHealth() << "/" << enemies[i].GetMaxHealth() << ")\n";
 
-                livingEnemyIndices.push_back(i);
-                optionNum++;
+                targets.push_back(i);
+                menuNum++;
             }
         }
         std::cout << "Choose target: ";
         int targetChoice;
         std::cin >> targetChoice;
 
-        int selectedIdx = targetChoice - 1;
-        if (selectedIdx >= 0 && selectedIdx < static_cast<int>(livingEnemyIndices.size()))
+        int choice = targetChoice - 1;
+        if (choice >= 0 && choice < targets.size())
         {
-            int enemyVecIdx = livingEnemyIndices[selectedIdx];
+            int monsterId = targets[choice];
 
-            int damageToEnemy = player.HasOneShot() ? 999 : player.GetAttackValue();
-            enemies[enemyVecIdx].LoseHealth(damageToEnemy);
-            std::cout << "You hit " << enemies[enemyVecIdx].GetName() << " for " << damageToEnemy << " damage!\n";
+            int damageToEnemy = player.GetAttackValue() - enemies[monsterId].GetDefence();
+            if (damageToEnemy < 1) damageToEnemy = 1;
 
-            if (!enemies[enemyVecIdx].IsAlive())
+            if (player.HasOneShot()) damageToEnemy = 999;
+
+            enemies[monsterId].LoseHealth(damageToEnemy);
+
+            system("cls");
+            std::cout << "You hit " << enemies[monsterId].GetName() << " for " << damageToEnemy << " damage!\n";
+
+            if (!enemies[monsterId].IsAlive())
             {
-                std::cout << enemies[enemyVecIdx].GetName() << " is defeated!\n";
+                std::cout << enemies[monsterId].GetName() << " is defeated!\n";
             }
         }
 
         if (HasLivingEnemies(enemies) && player.IsAlive())
         {
             std::cout << "\n--- MONSTERS TURN ---\n";
-            for (int i = 0; i < numEnemies; ++i)
+            for (int i = 0; i < enemies.size(); ++i)
             {
                 if (enemies[i].IsAlive())
                 {
@@ -76,4 +82,5 @@ void Combat::Fight(Player& player, std::vector<Enemy>& enemies)
         }
         system("pause");
     }
+    system("cls");
 }

@@ -8,12 +8,14 @@ private:
 	int health;
 	int maxHealth;
 	int attackValue;
+	int defence;
 
 public:
-	Enemy(std::string aName, int ahealth, int anattack);
+	Enemy(std::string aName, int ahealth, int anattack, int adefence);
 
 	std::string GetName() const;
 	int GetAttackValue() const;
+	int GetDefence() const;
 	int GetHealth() const;
 	int GetMaxHealth() const;
 	bool IsAlive() const;
