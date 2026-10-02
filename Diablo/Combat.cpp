@@ -1,19 +1,19 @@
 #include "Combat.h"
 #include <iostream>
 
-bool Combat::HasLivingEnemies(std::vector<Enemy>& enemies)
+bool Combat::HasLivingEnemies(std::vector<Enemy>& aEnemies)
 {
-    for (int i = 0; i < enemies.size(); ++i)
+    for (int i = 0; i < aEnemies.size(); ++i)
     {
-        if (enemies[i].IsAlive()) return true;
+        if (aEnemies[i].IsAlive()) return true;
     }
     return false;
 }
 
-void Combat::Fight(Player& player, std::vector<Enemy>& enemies)
+void Combat::Fight(Player& aPlayer, std::vector<Enemy>& aEnemies)
 {
 
-    while (HasLivingEnemies(enemies) && player.IsAlive())
+    while (HasLivingEnemies(aEnemies) && aPlayer.IsAlive())
     {
         system("cls");
         std::cout << "Monsters appear! You must defeat them to proceed!\n";
@@ -22,12 +22,12 @@ void Combat::Fight(Player& player, std::vector<Enemy>& enemies)
         std::vector<int> targets;
         int menuNum = 1;
 
-        for (int i = 0; i < enemies.size(); ++i)
+        for (int i = 0; i < aEnemies.size(); ++i)
         {
-            if (enemies[i].IsAlive())
+            if (aEnemies[i].IsAlive())
             {
-                std::cout << "[" << menuNum << "] Attack " << enemies[i].GetName()
-                    << " (HP: " << enemies[i].GetHealth() << "/" << enemies[i].GetMaxHealth() << ")\n";
+                std::cout << "[" << menuNum << "] Attack " << aEnemies[i].GetName()
+                    << " (HP: " << aEnemies[i].GetHealth() << "/" << aEnemies[i].GetMaxHealth() << ")\n";
 
                 targets.push_back(i);
                 menuNum++;
@@ -40,42 +40,42 @@ void Combat::Fight(Player& player, std::vector<Enemy>& enemies)
         int choice = targetChoice - 1;
         if (choice >= 0 && choice < targets.size())
         {
-            int monsterId = targets[choice];
+        int monsterId = targets[choice];
 
-            int damageToEnemy = player.GetAttackValue() - enemies[monsterId].GetDefence();
+            int damageToEnemy = aPlayer.GetAttackValue() - aEnemies[monsterId].GetDefence();
             if (damageToEnemy < 1) damageToEnemy = 1;
 
-            if (player.HasOneShot()) damageToEnemy = 999;
+            if (aPlayer.HasOneShot()) damageToEnemy = 999;
 
-            enemies[monsterId].LoseHealth(damageToEnemy);
+            aEnemies[monsterId].LoseHealth(damageToEnemy);
 
             system("cls");
-            std::cout << "You hit " << enemies[monsterId].GetName() << " for " << damageToEnemy << " damage!\n";
+            std::cout << "You hit " << aEnemies[monsterId].GetName() << " for " << damageToEnemy << " damage!\n";
 
-            if (!enemies[monsterId].IsAlive())
+            if (!aEnemies[monsterId].IsAlive())
             {
-                std::cout << enemies[monsterId].GetName() << " is defeated!\n";
+                std::cout << aEnemies[monsterId].GetName() << " is defeated!\n";
             }
         }
 
-        if (HasLivingEnemies(enemies) && player.IsAlive())
+        if (HasLivingEnemies(aEnemies) && aPlayer.IsAlive())
         {
             std::cout << "\n--- MONSTERS TURN ---\n";
-            for (int i = 0; i < enemies.size(); ++i)
+            for (int i = 0; i < aEnemies.size(); ++i)
             {
-                if (enemies[i].IsAlive())
+                if (aEnemies[i].IsAlive())
                 {
-                    if (player.HasGodMode())
+                    if (aPlayer.HasGodMode())
                     {
-                        std::cout << enemies[i].GetName() << " attacks, but you are IMMORTAL!\n";
+                        std::cout << aEnemies[i].GetName() << " attacks, but you are IMMORTAL!\n";
                     }
                     else
                     {
-                        int damageToPlayer = enemies[i].GetAttackValue() - player.GetDefence();
+                        int damageToPlayer = aEnemies[i].GetAttackValue() - aPlayer.GetDefence();
                         if (damageToPlayer < 1) damageToPlayer = 1;
 
-                        player.LoseHealth(damageToPlayer);
-                        std::cout << enemies[i].GetName() << " hits you for " << damageToPlayer << " damage!\n";
+                        aPlayer.LoseHealth(damageToPlayer);
+                        std::cout << aEnemies[i].GetName() << " hits you for " << damageToPlayer << " damage!\n";
                     }
                 }
             }

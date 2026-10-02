@@ -7,11 +7,11 @@
 class Game
 {
 private:
-    Player player;
-    std::vector<Room> dungeon;
-    std::vector<Door> allDoors;
-    int currentRoomNumber;
-    int winRoomNumber;
+    Player myPlayer;
+    std::vector<Room> myDungeon;
+    std::vector<Door> myAllDoors;
+    int myCurrentRoomNumber;
+    int myWinRoomNumber;
 
 public:
     Game();

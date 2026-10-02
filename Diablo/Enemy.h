@@ -4,14 +4,14 @@
 class Enemy
 {
 private:
-	std::string name;
-	int health;
-	int maxHealth;
-	int attackValue;
-	int defence;
+	std::string myName;
+	int myHealth;
+	int myMaxHealth;
+	int myAttackValue;
+	int myDefence;
 
 public:
-	Enemy(std::string aName, int ahealth, int anattack, int adefence);
+	Enemy(std::string aName, int aHealth, int anAttack, int aDefence);
 
 	std::string GetName() const;
 	int GetAttackValue() const;

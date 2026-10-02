@@ -1,22 +1,22 @@
 #include "Enemy.h"
 
-Enemy::Enemy(std::string aName, int ahealth, int anattack, int adefence)
+Enemy::Enemy(std::string aName, int aHealth, int anAttack, int aDefence)
 {
-	name = aName;
-	health = ahealth;
-	maxHealth = ahealth;
-	attackValue = anattack;
-	defence = adefence;
+	myName = aName;
+	myHealth = aHealth;
+	myMaxHealth = aHealth;
+	myAttackValue = anAttack;
+	myDefence = aDefence;
 }
 
-std::string Enemy::GetName() const { return name; }
-int Enemy::GetAttackValue() const { return attackValue; }
-int Enemy::GetDefence() const { return defence; }
-int Enemy::GetHealth() const { return health; }
-int Enemy::GetMaxHealth() const { return maxHealth; }
-bool Enemy::IsAlive() const { return health > 0; }
+std::string Enemy::GetName() const { return myName; }
+int Enemy::GetAttackValue() const { return myAttackValue; }
+int Enemy::GetDefence() const { return myDefence; }
+int Enemy::GetHealth() const { return myHealth; }
+int Enemy::GetMaxHealth() const { return myMaxHealth; }
+bool Enemy::IsAlive() const { return myHealth > 0; }
 
 void Enemy::LoseHealth(int damage)
 {
-	health -= damage;
+	myHealth -= damage;
 }

@@ -6,8 +6,8 @@
 class Combat
 {
 public:
-    static void Fight(Player& player, std::vector<Enemy>& enemies);
+    static void Fight(Player& aPlayer, std::vector<Enemy>& aEnemies);
 
 private:
-    static bool HasLivingEnemies(std::vector<Enemy>& enemies);
+    static bool HasLivingEnemies(std::vector<Enemy>& aEnemies);
 };

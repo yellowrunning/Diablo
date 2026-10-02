@@ -3,26 +3,35 @@
 
 Game::Game()
 {
-    currentRoomNumber = 0;
-    winRoomNumber = 4;
+    myCurrentRoomNumber = 0;
+    myWinRoomNumber = 4;
 }
 
 void Game::ShowMainMenu()
 {
     int choice = 0;
+    std::string input;
     while (choice != 1)
     {
         system("cls");
         std::cout << "===== Diablo =====\n";
         std::cout << "[1] Play Game\n";
-        std::cout << "[2] Toggle God Mode (Cheats)   [" << (player.HasGodMode() ? "ON" : "OFF") << "]\n";
-        std::cout << "[3] Toggle One-Shot Kill (Cheats)   [" << (player.HasOneShot() ? "ON" : "OFF") << "]\n";
+        std::cout << "[2] Toggle God Mode (Cheats)   [" << (myPlayer.HasGodMode() ? "ON" : "OFF") << "]\n";
+        std::cout << "[3] Toggle One-Shot Kill (Cheats)   [" << (myPlayer.HasOneShot() ? "ON" : "OFF") << "]\n";
         std::cout << "[4] Exit Game\n";
         std::cout << "Choose: ";
-        std::cin >> choice;
 
-        if (choice == 2) player.ToggleGodMode();
-        if (choice == 3) player.ToggleOneShot();
+        std::getline(std::cin, input);
+        try
+        {
+            choice = std::stoi(input);
+        }
+        catch (...) {
+            choice = 0;
+        }
+
+        if (choice == 2) myPlayer.ToggleGodMode();
+        if (choice == 3) myPlayer.ToggleOneShot();
         if (choice == 4) exit(0);
     }
 }
@@ -44,7 +53,7 @@ void Game::SetupDungeon()
     Room room5("The Hell Gate");
     room5.AddEnemy(Enemy("Demon", 50, 10, 6));
 
-    allDoors =
+    myAllDoors =
     {
         Door(0, 1, false),
         Door(1, 2, true),
@@ -52,19 +61,19 @@ void Game::SetupDungeon()
         Door(3, 4, true)
     };
 
-    room1.AddDoor(&allDoors[0]);
-    room2.AddDoor(&allDoors[0]);
+    room1.AddDoor(&myAllDoors[0]);
+    room2.AddDoor(&myAllDoors[0]);
 
-    room2.AddDoor(&allDoors[1]);
-    room3.AddDoor(&allDoors[1]);
+    room2.AddDoor(&myAllDoors[1]);
+    room3.AddDoor(&myAllDoors[1]);
 
-    room3.AddDoor(&allDoors[2]);
-    room4.AddDoor(&allDoors[2]);
+    room3.AddDoor(&myAllDoors[2]);
+    room4.AddDoor(&myAllDoors[2]);
 
-    room4.AddDoor(&allDoors[3]);
-    room5.AddDoor(&allDoors[3]);
+    room4.AddDoor(&myAllDoors[3]);
+    room5.AddDoor(&myAllDoors[3]);
 
-    dungeon = { room1, room2, room3, room4, room5 };
+    myDungeon = { room1, room2, room3, room4, room5 };
 }
 
 void Game::Run()
@@ -73,24 +82,25 @@ void Game::Run()
     SetupDungeon();
 
     system("cls");
-    std::cout << "The Game begins . . . \n";
+    std::cout << "The Game begins\n";
+    std::cout << "Objective: Escape the Hell Gate (reach room " << myWinRoomNumber << ") after defeating Demon.\n";
     system("pause");
 
-    while (player.IsAlive())
+    while (myPlayer.IsAlive())
     {
         system("cls");
-        currentRoomNumber = dungeon[currentRoomNumber].Interact(player, currentRoomNumber);
+        myCurrentRoomNumber = myDungeon[myCurrentRoomNumber].Interact(myPlayer, myCurrentRoomNumber);
 
-        if (currentRoomNumber == winRoomNumber && !dungeon[winRoomNumber].HasLivingEnemies())
+        if (myCurrentRoomNumber == myWinRoomNumber && !myDungeon[myWinRoomNumber].HasLivingEnemies())
         {
             break;
         }
     }
 
     system("cls");
-    if (player.IsAlive())
+    if (myPlayer.IsAlive())
     {
-        std::cout << "\n*** VICTORY! You cleared the dungeon!\n";
+        std::cout << "\nVICTORY! You cleared the dungeon!\n";
     }
     else
     {

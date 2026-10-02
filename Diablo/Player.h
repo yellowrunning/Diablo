@@ -1,33 +1,34 @@
 #pragma once
 #include <iostream>
+#include <string>
 
 class Player
 {
 private:
-	std::string name = "The Player";
-	int strength = 10;
-	int agility = 10;
-	int vitality = 10;
-	int currentHealth;
+	std::string myName = "The Player";
+	int myStrength = 10;
+	int myAgility = 10;
+	int myVitality = 10;
+	int myCurrentHealth;
 
-	bool godMode = false;
-	bool oneShotMode = false;
+	bool myGodMode = false;
+	bool myOneShotMode = false;
 
 public:
 	Player();
 
-	int GetMaxHealth() { return vitality * 6 + strength * 4 + agility * 3; }
-	int GetAttackValue() { return strength + agility; }
-	int GetDefence() { return strength + agility / 3; }
-	int GetStrength() const { return strength; }
-	int GetAgility() const { return agility; }
+	int GetMaxHealth() { return myVitality * 6 + myStrength * 4 + myAgility * 3; }
+	int GetAttackValue() { return myStrength + myAgility; }
+	int GetDefence() { return myStrength + myAgility / 3; }
+	int GetStrength() const { return myStrength; }
+	int GetAgility() const { return myAgility; }
 
-	bool IsAlive() { return currentHealth > 0; }
-	void LoseHealth(int damage);
+	bool IsAlive() { return myCurrentHealth > 0; }
+	void LoseHealth(int aDamage);
 	void ShowStats();
 
-	void ToggleGodMode() { godMode = !godMode; }
-	void ToggleOneShot() { oneShotMode = !oneShotMode; }
-	bool HasGodMode() const { return godMode; }
-	bool HasOneShot() const { return oneShotMode; }
+	void ToggleGodMode() { myGodMode = !myGodMode; }
+	void ToggleOneShot() { myOneShotMode = !myOneShotMode; }
+	bool HasGodMode() const { return myGodMode; }
+	bool HasOneShot() const { return myOneShotMode; }
 };

@@ -5,21 +5,21 @@
 
 Door::Door(int aRoomA, int aRoomB, bool locked)
 {
-    roomA_Number = aRoomA;
-    roomB_Number = aRoomB;
-    isLocked = locked;
+    myRoomA_Number = aRoomA;
+    myRoomB_Number = aRoomB;
+    myIsLocked = locked;
 }
 
 int Door::GetDestination(int currentRoomNumber) const
 {
-    if (currentRoomNumber == roomA_Number) return roomB_Number;
-    return roomA_Number;
+    if (currentRoomNumber == myRoomA_Number) return myRoomB_Number;
+    return myRoomA_Number;
 }
 
-bool Door::IsLocked() const { return isLocked; }
-void Door::Unlock() { isLocked = false; }
+bool Door::IsLocked() const { return myIsLocked; }
+void Door::Unlock() { myIsLocked = false; }
 
-bool Door::AttemptUnlock(Player& player, int lockChoice)
+bool Door::AttemptUnlock(Player& aPlayer, int aLockChoice)
 {
     std::random_device rd;
     std::mt19937 dice(rd());
@@ -28,16 +28,16 @@ bool Door::AttemptUnlock(Player& player, int lockChoice)
     int roll = d20(dice);
     int targetScore = 20;
 
-    if (lockChoice == 1)
+    if (aLockChoice == 1)
     {
-        int totalScore = roll + player.GetAgility();
+        int totalScore = roll + aPlayer.GetAgility();
         std::cout << "\nYou attempt to pick the lock...\n";
-        std::cout << "You rolled: " << roll << " + Agility (" << player.GetAgility() << ") = Total: " << totalScore << "\n";
+        std::cout << "You rolled: " << roll << " + Agility (" << aPlayer.GetAgility() << ") = Total: " << totalScore << "\n";
 
         if (totalScore >= targetScore)
         {
             std::cout << "Success! You picked the lock open.\n";
-            isLocked = false;
+            myIsLocked = false;
             return true;
         }
         else
@@ -46,16 +46,16 @@ bool Door::AttemptUnlock(Player& player, int lockChoice)
             return false;
         }
     }
-    else if (lockChoice == 2)
+    else if (aLockChoice == 2)
     {
-        int totalScore = roll + player.GetStrength();
+            int totalScore = roll + aPlayer.GetStrength();
         std::cout << "\nYou slam your body against the door...\n";
-        std::cout << "You rolled: " << roll << " + Strength (" << player.GetStrength() << ") = Total: " << totalScore << "\n";
+        std::cout << "You rolled: " << roll << " + Strength (" << aPlayer.GetStrength() << ") = Total: " << totalScore << "\n";
 
         if (totalScore >= targetScore)
         {
             std::cout << "Success! The door flies open.\n";
-            isLocked = false;
+            myIsLocked = false;
             return true;
         }
         else
