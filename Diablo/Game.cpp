@@ -39,19 +39,19 @@ void Game::ShowMainMenu()
 void Game::SetupDungeon()
 {
     Room room1("The Entrance");
-    room1.AddEnemy(Enemy("Goblin", 20, 25, 2));
+    room1.AddEnemy(Enemy("Goblin", 20, 30, 2));
     room1.AddRoomLoot(Loot::CreateItem(1));
 
     Room room2("The Great Hall");
-    room2.AddEnemy(Enemy("Skeleton", 25, 30, 3));
+    room2.AddEnemy(Enemy("Skeleton", 25, 35, 3));
     room2.SetChest(Chest({ Loot::CreateItem(2) }));
 
     Room room3("The Crypt");
-    room3.AddEnemy(Enemy("Zombie", 30, 35, 4));
+    room3.AddEnemy(Enemy("Zombie", 30, 40, 4));
     room3.AddRoomLoot(Loot::CreateItem(3));
 
     Room room4("The Armory");
-    room4.AddEnemy(Enemy("Orc", 35, 40, 5));
+    room4.AddEnemy(Enemy("Orc", 35, 45, 5));
     room4.AddRoomLoot(Loot::CreateItem(4));
 
     Room room5("The Hell Gate");
