@@ -3,18 +3,26 @@
 
 class Loot
 {
-public:
-	Loot(const std::string& name = "", int hp = 0, int atk = 0, int def = 0)
-		: itemName(name), addHealth(hp), addAttack(atk), addDefence(def) {}
-
-	const std::string& Name() const { return itemName; }
-	int Health() const { return addHealth; }
-	int Attack() const { return addAttack; }
-	int Defence() const { return addDefence; }
-
 private:
-	std::string itemName;
-	int addHealth;
-	int addAttack;
-	int addDefence;
+	std::string myItemName;
+	int myAddHealth;
+	int myAddAttack;
+	int myAddDefence;
+	int myWeight;
+	bool myIsSpell;
+
+public:
+	Loot(const std::string& aName = "", int aHp = 0, int aAtk = 0, int aDef = 0, int aWeight = 0, bool aIsSpell = false)
+		: myItemName(aName), myAddHealth(aHp), myAddAttack(aAtk), myAddDefence(aDef), myWeight(aWeight), myIsSpell(aIsSpell)
+	{
+	}
+
+	const std::string& GetName() const { return myItemName; }
+	int GetHealth() const { return myAddHealth; }
+	int GetAttack() const { return myAddAttack; }
+	int GetDefence() const { return myAddDefence; }
+	int GetWeight() const { return myWeight; }
+	bool IsSpell() const { return myIsSpell; }
+
+	static Loot CreateItem(int aItemId);
 };

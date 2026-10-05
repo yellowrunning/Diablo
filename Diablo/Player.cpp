@@ -1,5 +1,5 @@
-#include <iostream>
 #include "Player.h"
+#include <iostream>
 
 Player::Player()
 {
@@ -18,6 +18,14 @@ void Player::ShowStats()
     std::cout << "Agility: " << myAgility << "\n";
     std::cout << "Vitality: " << myVitality << "\n";
     std::cout << "HP: " << myCurrentHealth << " / " << GetMaxHealth() << "\n";
-    std::cout << "Attack: " << GetAttackValue() << "\n";
-    std::cout << "Defence: " << GetDefence() << "\n====================\n\n";
+    std::cout << "Attack (with items): " << GetAttackValue() << "\n";
+    std::cout << "Defence (with items): " << GetDefence() << "\n";
+
+    if (mySpells.GetTurnsLeft() > 0)
+    {
+        std::cout << "Active Spell: +" << mySpells.GetAttackBonus() << " ATK (" << mySpells.GetTurnsLeft() << " rooms left)\n";
+    }
+
+    myInventory.PrintInventory();
+    std::cout << "===========================\n\n";
 }

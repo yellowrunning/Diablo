@@ -17,6 +17,7 @@ void Combat::Fight(Player& aPlayer, std::vector<Enemy>& aEnemies)
     {
         system("cls");
         std::cout << "Monsters appear! You must defeat them to proceed!\n";
+        std::cout << "Your HP: " << aPlayer.GetHealth() << " / " << aPlayer.GetMaxHealth() << "\n";
 
         std::cout << "\n--- YOUR TURN ---\n";
         std::vector<int> targets;

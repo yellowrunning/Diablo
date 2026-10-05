@@ -1,64 +1,84 @@
 #include "Rooms.h"
 #include "Combat.h"
 #include <iostream>
+#include <random>
+#include <string>
 
 Room::Room(std::string aName)
 {
-	name = aName;
+	myName = aName;
 }
 
 void Room::AddEnemy(Enemy anEnemy)
 {
-	enemies.push_back(anEnemy);
+	myEnemies.push_back(anEnemy);
 }
 
 void Room::AddDoor(Door* aDoor)
 {
-	doors.push_back(aDoor);
+	myDoors.push_back(aDoor);
 }
 
 std::string Room::GetName() const
 {
-	return name;
+	return myName;
 }
 
 bool Room::HasLivingEnemies()
 {
-	for (int i = 0; i < enemies.size(); ++i)
+	for (int i = 0; i < myEnemies.size(); ++i)
 	{
-		if (enemies[i].IsAlive()) return true;
+		if (myEnemies[i].IsAlive()) return true;
 	}
 	return false;
 }
 
-int Room::Interact(Player& player, int currentRoomNumber)
+int Room::Interact(Player& aPlayer, int aCurrentRoomNumber)
 {
-	std::cout << "\n====================================\n";
-	std::cout << "You are in: " << name << "\n";
-	std::cout << "====================================\n";
-
 	if (HasLivingEnemies())
 	{
-		Combat::Fight(player, enemies);
-		if (!player.IsAlive()) return currentRoomNumber;
+		Combat::Fight(aPlayer, myEnemies);
+		if (!aPlayer.IsAlive()) return aCurrentRoomNumber;
+
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<int> dropChance(1, 10);
+		if (dropChance(gen) <= 3)
+		{
+			std::cout << "\nThe defeated enemy dropped something on the floor!\n";
+			myRoomLoot.push_back(Loot::CreateItem(5));
+			system("pause");
+		}
 	}
 
 	system("cls");
 	std::cout << "====================================\n";
-	std::cout << "You are in: " << name << "\n";
+	std::cout << "You are in: " << myName << "\n";
 	std::cout << "====================================\n\n";
+	std::cout << "Your HP: " << aPlayer.GetHealth() << " / " << aPlayer.GetMaxHealth() << "\n";
 
-	std::cout << "[1] View your stats\n";
-	for (int i = 0; i < doors.size(); ++i)
+	std::cout << "[1] View your stats & inventory\n";
+	std::cout << "[2] Inspect the floor (Look for Items/Spells)\n";
+
+	int menuIndex = 3;
+	int chestOption = 0;
+	if (myHasChest)
 	{
-		int dest = doors[i]->GetDestination(currentRoomNumber);
-		std::cout << "[" << i + 2 << "] Go to door leading to room " << dest;
-		if (doors[i]->IsLocked())
-		{
-			std::cout << " (LOCKED)";
-		}
-		std::cout << "\n";
+		chestOption = menuIndex;
+		std::cout << "[" << menuIndex << "] Open the Chest in the room\n";
+		menuIndex++;
 	}
+
+	int firstDoorMenuNum = menuIndex;
+	for (int i = 0; i < myDoors.size(); ++i)
+	{
+		int dest = myDoors[i]->GetDestination(aCurrentRoomNumber);
+		std::cout << "[" << menuIndex << "] Go to door leading to room " << dest;
+		if (myDoors[i]->IsLocked()) std::cout << " (LOCKED)";
+		std::cout << "\n";
+		menuIndex++;
+	}
+
 	std::cout << "Choose action: ";
 	int choice;
 	std::cin >> choice;
@@ -66,15 +86,58 @@ int Room::Interact(Player& player, int currentRoomNumber)
 	if (choice == 1)
 	{
 		system("cls");
-		player.ShowStats();
+		aPlayer.ShowStats();
 		system("pause");
-		return currentRoomNumber;
+		return aCurrentRoomNumber;
 	}
 
-	int doorChoice = choice - 2;
-	if (doorChoice >= 0 && doorChoice < doors.size())
+	if (choice == 2)
 	{
-		Door* selectedDoor = doors[doorChoice];
+		system("cls");
+		std::cout << "=== SEARCHING THE FLOOR ===\n";
+		if (myRoomLoot.empty())
+		{
+			std::cout << "The floor is bare. Nothing here.\n";
+		}
+		else
+		{
+			Loot found = myRoomLoot.back();
+			myRoomLoot.pop_back();
+
+			if (found.IsSpell())
+			{
+				aPlayer.ActivateSpell(found);
+			}
+			else
+			{
+				aPlayer.TryAddItem(found);
+			}
+		}
+		system("pause");
+		return aCurrentRoomNumber;
+	}
+
+	if (myHasChest && choice == chestOption)
+	{
+		system("cls");
+		std::cout << "=== OPENING CHEST ===\n";
+
+		std::vector<Loot> droppedItems = myChest.Open();
+		for (const auto& item : droppedItems)
+		{
+			std::cout << "You got " << item.GetName() << "!";
+			myRoomLoot.push_back(item);
+		}
+
+		myHasChest = false;
+		system("pause");
+		return aCurrentRoomNumber;
+	}
+
+	int doorChoice = choice - firstDoorMenuNum;
+	if (doorChoice >= 0 && doorChoice < myDoors.size())
+	{
+		Door* selectedDoor = myDoors[doorChoice];
 
 		if (selectedDoor->IsLocked())
 		{
@@ -89,16 +152,19 @@ int Room::Interact(Player& player, int currentRoomNumber)
 
 			if (lockChoice == 1 || lockChoice == 2)
 			{
-				bool success = selectedDoor->AttemptUnlock(player, lockChoice);
+				bool success = selectedDoor->AttemptUnlock(aPlayer, lockChoice);
 				system("pause");
 
-				if (!success)
-				{
-					return currentRoomNumber;
-				}
+				if (!success) return aCurrentRoomNumber;
+			}
+			else
+			{
+				return aCurrentRoomNumber;
 			}
 		}
-		return selectedDoor->GetDestination(currentRoomNumber);
+
+		aPlayer.UpdateSpellTimer();
+		return selectedDoor->GetDestination(aCurrentRoomNumber);
 	}
-	return currentRoomNumber;
+	return aCurrentRoomNumber;
 }

@@ -1,22 +1,21 @@
-#include <iostream>
-#include <vector>
 #include "Loot.h"
+#include <iostream>
 
-int main()
+Loot Loot::CreateItem(int aItemId)
 {
-	std::vector<Loot> groundLoot;
-
-	groundLoot.push_back(Loot("Health Potion", 50, 0, 0));
-	groundLoot.push_back(Loot("Sword", 0, 5, 0));
-	groundLoot.push_back(Loot("Armor", 0, 0, 3));
-
-	for (const auto& item : groundLoot)
-	{
-		std::cout << "Item: " << item.Name()
-			<< "  HP+" << item.Health()
-			<< "  ATK+" << item.Attack()
-			<< "  DEF+" << item.Defence() << '\n';
-	}
-
-	return 0;
+    switch (aItemId)
+    {
+    case 1:
+        return Loot("Iron Sword", 0, 5, 0, 4, false);
+    case 2:
+        return Loot("Steel Shield", 0, 0, 6, 8, false);
+    case 3:
+        return Loot("Blood Lust", 0, 10, 0, 0, true);
+    case 4:
+        return Loot("Heavy Plate Armor", 0, 0, 10, 12, false);
+    case 5:
+        return Loot("Rusty Dagger", 0, 2, 0, 3, false);
+    default:
+        return Loot("Empty Bottle", 0, 0, 0, 1, false);
+    }
 }
