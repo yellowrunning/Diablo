@@ -97,7 +97,7 @@ int Room::Interact(Player& aPlayer, int aCurrentRoomNumber)
 		std::cout << "=== SEARCHING THE FLOOR ===\n";
 		if (myRoomLoot.empty())
 		{
-			std::cout << "The floor is bare. Nothing here.\n";
+			std::cout << "The floor is empty. Nothing here.\n";
 		}
 		else
 		{
