@@ -4,7 +4,8 @@
 #include <random>
 #include <string>
 
-Room::Room(std::string aName)
+Room::Room(std::string aName, ItemFactory& aItemFactory)
+	: myItemFactory(aItemFactory)
 {
 	myName = aName;
 }
@@ -46,7 +47,7 @@ int Room::Interact(Player& aPlayer, int aCurrentRoomNumber)
 		if (dropChance(gen) <= 3)
 		{
 			std::cout << "\nThe defeated enemy dropped something on the floor!\n";
-			myRoomLoot.push_back(Loot::CreateItem(5));
+			myRoomLoot.push_back(myItemFactory.Create(ItemFactory::ItemId::RustyDagger));
 			system("pause");
 		}
 	}

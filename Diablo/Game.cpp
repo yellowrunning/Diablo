@@ -38,24 +38,24 @@ void Game::ShowMainMenu()
 
 void Game::SetupDungeon()
 {
-    Room room1("The Entrance");
-    room1.AddEnemy(Enemy("Goblin", 20, 30, 2));
-    room1.AddRoomLoot(Loot::CreateItem(1));
+    Room* room1 = new Room("The Entrance", myItemFactory);
+    room1->AddEnemy(myEnemyFactory.Create(EnemyFactory::EnemyId::Goblin));
+    room1->AddRoomLoot(myItemFactory.Create(ItemFactory::ItemId::IronSword));
 
-    Room room2("The Great Hall");
-    room2.AddEnemy(Enemy("Skeleton", 25, 35, 3));
-    room2.SetChest(Chest({ Loot::CreateItem(2) }));
+    Room* room2 = new Room("The Great Hall", myItemFactory);
+    room2->AddEnemy(myEnemyFactory.Create(EnemyFactory::EnemyId::Skeleton));
+    room2->SetChest(Chest({ myItemFactory.Create(ItemFactory::ItemId::SteelShield) }));
 
-    Room room3("The Crypt");
-    room3.AddEnemy(Enemy("Zombie", 30, 40, 4));
-    room3.AddRoomLoot(Loot::CreateItem(3));
+    Room* room3 = new Room("The Crypt", myItemFactory);
+    room3->AddEnemy(myEnemyFactory.Create(EnemyFactory::EnemyId::Zombie));
+    room3->AddRoomLoot(myItemFactory.Create(ItemFactory::ItemId::BloodLust));
 
-    Room room4("The Armory");
-    room4.AddEnemy(Enemy("Orc", 35, 45, 5));
-    room4.AddRoomLoot(Loot::CreateItem(4));
+    Room* room4 = new Room("The Armory", myItemFactory);
+    room4->AddEnemy(myEnemyFactory.Create(EnemyFactory::EnemyId::Orc));
+    room4->AddRoomLoot(myItemFactory.Create(ItemFactory::ItemId::HeavyPlate));
 
-    Room room5("The Hell Gate");
-    room5.AddEnemy(Enemy("Demon", 50, 50, 6));
+    Room* room5 = new Room("The Hell Gate", myItemFactory);
+    room5->AddEnemy(myEnemyFactory.Create(EnemyFactory::EnemyId::Demon));
 
     myAllDoors =
     {
@@ -65,19 +65,24 @@ void Game::SetupDungeon()
         Door(3, 4, true)
     };
 
-    room1.AddDoor(&myAllDoors[0]);
-    room2.AddDoor(&myAllDoors[0]);
+    room1->AddDoor(&myAllDoors[0]);
+    room2->AddDoor(&myAllDoors[0]);
 
-    room2.AddDoor(&myAllDoors[1]);
-    room3.AddDoor(&myAllDoors[1]);
+    room2->AddDoor(&myAllDoors[1]);
+    room3->AddDoor(&myAllDoors[1]);
 
-    room3.AddDoor(&myAllDoors[2]);
-    room4.AddDoor(&myAllDoors[2]);
+    room3->AddDoor(&myAllDoors[2]);
+    room4->AddDoor(&myAllDoors[2]);
 
-    room4.AddDoor(&myAllDoors[3]);
-    room5.AddDoor(&myAllDoors[3]);
+    room4->AddDoor(&myAllDoors[3]);
+    room5->AddDoor(&myAllDoors[3]);
 
-    myDungeon = { room1, room2, room3, room4, room5 };
+    myDungeon.clear();
+    myDungeon.push_back(room1);
+    myDungeon.push_back(room2);
+    myDungeon.push_back(room3);
+    myDungeon.push_back(room4);
+    myDungeon.push_back(room5);
 }
 
 void Game::Run()
@@ -93,9 +98,9 @@ void Game::Run()
     while (myPlayer.IsAlive())
     {
         system("cls");
-        myCurrentRoomNumber = myDungeon[myCurrentRoomNumber].Interact(myPlayer, myCurrentRoomNumber);
+        myCurrentRoomNumber = myDungeon[myCurrentRoomNumber]->Interact(myPlayer, myCurrentRoomNumber);
 
-        if (myCurrentRoomNumber == myWinRoomNumber && !myDungeon[myWinRoomNumber].HasLivingEnemies())
+        if (myCurrentRoomNumber == myWinRoomNumber && !myDungeon[myWinRoomNumber]->HasLivingEnemies())
         {
             break;
         }

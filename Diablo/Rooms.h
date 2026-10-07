@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Door.h"
 #include "Loot.h"
+#include "ItemFactory.h"
 #include "Chest.h"
 
 class Room
@@ -17,9 +18,10 @@ private:
 	std::vector<Loot> myRoomLoot;
 	Chest myChest;
 	bool myHasChest = false;
+	ItemFactory& myItemFactory;
 
 public:
-	Room(std::string aName);
+	Room(std::string aName, ItemFactory& aItemFactory);
 
 	void AddEnemy(Enemy anEnemy);
 	void AddDoor(Door* aDoor);

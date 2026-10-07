@@ -1,28 +1,22 @@
 #pragma once
 #include <string>
 
+// Forward declaration of ItemType owned by ItemFactory
+struct ItemType;
+
 class Loot
 {
 private:
-	std::string myItemName;
-	int myAddHealth;
-	int myAddAttack;
-	int myAddDefence;
-	int myWeight;
-	bool myIsSpell;
+	const ItemType* myType = nullptr;
 
 public:
-	Loot(const std::string& aName = "", int aHp = 0, int aAtk = 0, int aDef = 0, int aWeight = 0, bool aIsSpell = false)
-		: myItemName(aName), myAddHealth(aHp), myAddAttack(aAtk), myAddDefence(aDef), myWeight(aWeight), myIsSpell(aIsSpell)
-	{
-	}
+	// Construct from an ItemType owned by the ItemFactory
+	explicit Loot(const ItemType* aType = nullptr) : myType(aType) {}
 
-	const std::string& GetName() const { return myItemName; }
-	int GetHealth() const { return myAddHealth; }
-	int GetAttack() const { return myAddAttack; }
-	int GetDefence() const { return myAddDefence; }
-	int GetWeight() const { return myWeight; }
-	bool IsSpell() const { return myIsSpell; }
-
-	static Loot CreateItem(int aItemId);
+	const std::string& GetName() const;
+	int GetHealth() const;
+	int GetAttack() const;
+	int GetDefence() const;
+	int GetWeight() const;
+	bool IsSpell() const;
 };

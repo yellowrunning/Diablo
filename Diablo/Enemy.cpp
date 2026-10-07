@@ -1,17 +1,19 @@
 #include "Enemy.h"
+#include "EnemyFactory.h"
 
-Enemy::Enemy(std::string aName, int aHealth, int anAttack, int aDefence)
+Enemy::Enemy(const EnemyType* aType)
 {
-	myName = aName;
-	myHealth = aHealth;
-	myMaxHealth = aHealth;
-	myAttackValue = anAttack;
-	myDefence = aDefence;
+	myType = aType;
+	if (myType)
+	{
+		myHealth = myType->health;
+		myMaxHealth = myType->health;
+	}
 }
 
-std::string Enemy::GetName() const { return myName; }
-int Enemy::GetAttackValue() const { return myAttackValue; }
-int Enemy::GetDefence() const { return myDefence; }
+std::string Enemy::GetName() const { return myType ? myType->name : std::string(); }
+int Enemy::GetAttackValue() const { return myType ? myType->attack : 0; }
+int Enemy::GetDefence() const { return myType ? myType->defence : 0; }
 int Enemy::GetHealth() const { return myHealth; }
 int Enemy::GetMaxHealth() const { return myMaxHealth; }
 bool Enemy::IsAlive() const { return myHealth > 0; }
