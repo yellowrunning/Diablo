@@ -30,7 +30,6 @@ public:
 
 	EnemyFactory();
 
-	// Create an Enemy that references a shared EnemyType owned by the factory
 	Enemy Create(EnemyId anId) const;
 
 	const EnemyType* GetType(EnemyId anId) const;

@@ -2,9 +2,7 @@
 
 ItemFactory::ItemFactory()
 {
-	// Populate types by index matching the enum values where possible
-	// We will ensure vector index mapping by resizing and assigning.
-	myTypes.resize(6); // indices 0..5
+	myTypes.resize(6);
 	myTypes[static_cast<int>(ItemId::EmptyBottle)] = ItemType("Empty Bottle", 0, 0, 0, 1, false);
 	myTypes[static_cast<int>(ItemId::IronSword)] = ItemType("Iron Sword", 0, 5, 0, 4, false);
 	myTypes[static_cast<int>(ItemId::SteelShield)] = ItemType("Steel Shield", 0, 0, 6, 8, false);

@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 
-// Forward declaration of EnemyType owned by EnemyFactory
 struct EnemyType;
 
 class Enemy
@@ -12,7 +11,6 @@ private:
 	int myMaxHealth = 0;
 
 public:
-	// Construct from a shared EnemyType
 	explicit Enemy(const EnemyType* aType = nullptr);
 
 	std::string GetName() const;

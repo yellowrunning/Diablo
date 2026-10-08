@@ -33,11 +33,8 @@ public:
 
 	ItemFactory();
 
-	// Create a Loot that references a shared ItemType owned by the factory
-	// Only takes an enum indicating which item to create
 	Loot Create(ItemId anId) const;
 
-	// Provide access to internal ItemType for constructing Loot
 	const ItemType* GetType(ItemId anId) const;
 
 private:
