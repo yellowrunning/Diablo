@@ -81,8 +81,17 @@ int Room::Interact(Player& aPlayer, int aCurrentRoomNumber)
 	}
 
 	std::cout << "Choose action: ";
-	int choice;
-	std::cin >> choice;
+	int choice = 0;
+	std::string mainInput;
+	std::getline(std::cin, mainInput);
+	try
+	{
+		choice = std::stoi(mainInput);
+	}
+	catch (...)
+	{
+		choice = 0;
+	}
 
 	if (choice == 1)
 	{
@@ -148,8 +157,18 @@ int Room::Interact(Player& aPlayer, int aCurrentRoomNumber)
 			std::cout << "[2] Break down the door (Uses Strength)\n";
 			std::cout << "[3] Go back\n";
 			std::cout << "Choice: ";
-			int lockChoice;
-			std::cin >> lockChoice;
+
+			int lockChoice = 0;
+			std::string lockInput;
+			std::getline(std::cin, lockInput);
+			try
+			{
+				lockChoice = std::stoi(lockInput);
+			}
+			catch (...)
+			{
+				lockChoice = 0;
+			}
 
 			if (lockChoice == 1 || lockChoice == 2)
 			{

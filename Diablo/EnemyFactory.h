@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Enemy.h"
+#include "ItemFactory.h"
 
 struct EnemyType
 {
@@ -28,12 +29,14 @@ public:
 		Demon = 4
 	};
 
-	EnemyFactory();
+	EnemyFactory(ItemFactory& aItemFactory);
 
 	Enemy Create(EnemyId anId) const;
-
 	const EnemyType* GetType(EnemyId anId) const;
+
+	Loot RollEnemyDrop() const;
 
 private:
 	std::vector<EnemyType> myTypes;
+	ItemFactory& myItemFactory;
 };

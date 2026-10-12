@@ -7,6 +7,16 @@ Game::Game()
     myWinRoomNumber = 4;
 }
 
+Game::~Game()
+{
+    int dungeonSize = static_cast<int>(myDungeon.size());
+    for (int i = 0; i < dungeonSize; ++i)
+    {
+        delete myDungeon[i];
+    }
+    myDungeon.clear();
+}
+
 void Game::ShowMainMenu()
 {
     int choice = 0;

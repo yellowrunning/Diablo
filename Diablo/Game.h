@@ -15,10 +15,12 @@ private:
     int myCurrentRoomNumber;
     int myWinRoomNumber;
     ItemFactory myItemFactory{ };
-    EnemyFactory myEnemyFactory{ };
+    EnemyFactory myEnemyFactory{ myItemFactory };
 
 public:
     Game();
+    ~Game();
+
     void Run();
 
 private:
